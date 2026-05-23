@@ -1,21 +1,21 @@
-# Teton Challenge — Robust Mobile Notifications
+# Teton Challenge, Robust Mobile Notifications
 
 > **No prior experience required. The solution is the signal.**
 > Every submission gets feedback within 7 days. → `info@teton.ai`
 
 ---
 
-At Teton we run AI in care homes that watches for things that matter — a resident getting out of bed, a fall, a change in breathing. When something happens, a nurse's phone has to know. Quickly. Once.
+At Teton we run AI in care homes that watches for things that matter, a resident getting out of bed, a fall, a change in breathing. When something happens, a nurse's phone has to know. Quickly. Once.
 
 The phone ringing is the moment we earn trust. Drop the notification and we miss the fall. Send it twice and we cry wolf. Send it late and we may as well not have sent it.
 
-**This challenge is about building the part of our system that does that — and making it actually robust, not just "works on a good day".**
+**This challenge is about building the part of our system that does that, and making it actually robust, not just "works on a good day".**
 
 ## The problem
 
-Build a notification service. It accepts an incoming `notify(event)` request and is responsible for delivering that event to one or more user devices via a (mocked) push gateway that behaves like the real ones do — APNs, FCM, web push.
+Build a notification service. It accepts an incoming `notify(event)` request and is responsible for delivering that event to one or more user devices via a (mocked) push gateway that behaves like the real ones do, APNs, FCM, web push.
 
-Sounds easy. Until the gateway returns 429. Or the token expired three weeks ago and nobody told you. Or your worker died holding the message in memory. Or the upstream service retried because it didn't see your ack — and now the nurse's phone has rung twice for the same fall at 3am.
+Sounds easy. Until the gateway returns 429. Or the token expired three weeks ago and nobody told you. Or your worker died holding the message in memory. Or the upstream service retried because it didn't see your ack, and now the nurse's phone has rung twice for the same fall at 3am.
 
 ## What you build
 
@@ -26,8 +26,8 @@ POST /notify
 {
   "event_id": "evt_abc123",
   "recipient_user_id": "user_42",
-  "title": "Fall detected — Room 14",
-  "body": "Mrs. Hansen — please check immediately",
+  "title": "Fall detected, Room 14",
+  "body": "Mrs. Hansen, please check immediately",
   "priority": "high",       // high | normal
   "occurred_at": "2026-05-23T18:53:49Z"
 }
@@ -51,7 +51,7 @@ We provide a **mock gateway** (HTTP server in this repo, single binary or Docker
 
 ## What "robust" means here
 
-The bar — these are not nice-to-haves:
+The bar, these are not nice-to-haves:
 
 1. **Every event is delivered at least once** to every valid device within **5 seconds p95** of `notify` returning 2xx, even with the gateway misbehaving as above.
 2. **No event is delivered twice** to the same device, even if `/notify` is retried by an upstream caller with the same `event_id`.
@@ -59,7 +59,7 @@ The bar — these are not nice-to-haves:
 4. **Expired tokens are detected and removed**, automatically, without dropping the event.
 5. **Worker crashes don't drop in-flight events.** If you kill -9 the process mid-delivery, every event still gets delivered after restart.
 6. **High-priority events bypass low-priority queue depth.** A fall notification can't sit behind 10,000 marketing pings.
-7. **You have observability** — you can answer "what happened to event_id X?" in under 30 seconds, with no live debugging.
+7. **You have observability**, you can answer "what happened to event_id X?" in under 30 seconds, with no live debugging.
 
 ## What we evaluate
 
@@ -88,17 +88,17 @@ We will also **read your code**. A solution that passes the harness but is unrea
 | Code quality and design clarity | 15 |
 | Observability (logs, metrics, traceability) | 10 |
 
-**Pass bar:** 75. Below that, we won't reply with a yes — but we'll always reply.
+**Pass bar:** 75. Below that, we won't reply with a yes, but we'll always reply.
 
 ## What's in this repo
 
 ```
 .
-├── README.md          — this file
-├── SUBMISSION.md      — fill this in with your submission
-├── mock_gateway/      — the push gateway simulator (read its README)
-├── load_harness/      — a basic load generator you can run locally
-└── eval/              — the test scenarios we'll run against your service
+├── README.md         , this file
+├── SUBMISSION.md     , fill this in with your submission
+├── mock_gateway/     , the push gateway simulator (read its README)
+├── load_harness/     , a basic load generator you can run locally
+└── eval/             , the test scenarios we'll run against your service
 ```
 
 ## What we are explicitly **not** looking for
@@ -113,21 +113,21 @@ We will also **read your code**. A solution that passes the harness but is unrea
 Email **info@teton.ai** with subject **`Solution: Robust mobile notifications`** and:
 
 1. A link to your fork (public) or a tarball.
-2. A short writeup — under 400 words — covering:
+2. A short writeup, under 400 words, covering:
    - Stack choice and why.
    - The two or three hardest tradeoffs you made.
    - What you would do next if you had another week.
 3. Instructions to run your service against `mock_gateway/`.
 4. Your **CV** (attached), plus **LinkedIn** and **GitHub** links so we can put the work in context.
 
-**We reply with feedback within 7 days — every submission, no exceptions.** If your work hits the bar, the next step is a conversation with engineers.
+**We reply with feedback within 7 days, every submission, no exceptions.** If your work hits the bar, the next step is a conversation with engineers.
 
 ## Notes
 
 - Time: most strong candidates spend 8–20 hours on this. Spend more if you want; spend less if you can.
 - Stack: any language. Any database. Any queue. Hosted infra is allowed; we'll run it locally too, so document the local path.
-- LLMs: use them as you normally would. We don't care how you get there — we care that you understand every line you ship and the choices behind it.
+- LLMs: use them as you normally would. We don't care how you get there, we care that you understand every line you ship and the choices behind it.
 
 Good luck.
 
-— The Teton engineering team
+The Teton engineering team

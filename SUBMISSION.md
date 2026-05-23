@@ -1,4 +1,4 @@
-# Submission — Robust Mobile Notifications
+# Submission, Robust Mobile Notifications
 
 **Your name:**
 **Email:**
@@ -8,7 +8,7 @@
 
 ## Stack
 
-(What you used and why — 2–3 sentences.)
+(What you used and why, 2–3 sentences.)
 
 ## The hardest tradeoffs
 

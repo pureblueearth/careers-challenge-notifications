@@ -1,6 +1,6 @@
 # Mock push gateway
 
-Single-file HTTP server that simulates how real push gateways (APNs, FCM, web push) actually behave — flakiness and all. Your service talks to it instead of a real provider.
+Single-file HTTP server that simulates how real push gateways (APNs, FCM, web push) actually behave, flakiness and all. Your service talks to it instead of a real provider.
 
 This stub will be fleshed out before public release. Until then, treat it as the spec your service must work against:
 
@@ -14,15 +14,15 @@ POST /push
   "title":        "...",
   "body":         "...",
   "priority":     "high" | "normal",
-  "callback_url": "..."   // optional — for async delivery confirmation
+  "callback_url": "..."   // optional, for async delivery confirmation
 }
 
 Responses:
-  202 Accepted              — queued for delivery
-  410 Gone                  — device_token expired; stop sending
-  429 Too Many Requests     — Retry-After header set
-  500 / 503                 — transient; retry
-  (no response within 30s)  — treat as dropped
+  202 Accepted             , queued for delivery
+  410 Gone                 , device_token expired; stop sending
+  429 Too Many Requests    , Retry-After header set
+  500 / 503                , transient; retry
+  (no response within 30s) , treat as dropped
 ```
 
 ## Behavior knobs (env vars)
