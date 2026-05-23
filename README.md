@@ -1,7 +1,7 @@
 # Teton Challenge — Robust Mobile Notifications
 
-> **No CV. No prior experience. Just results.**
-> If you can build this well, we want to talk. → `info@teton.ai`
+> **No prior experience required. The solution is the signal.**
+> Every submission gets feedback within 7 days. → `info@teton.ai`
 
 ---
 
@@ -118,8 +118,9 @@ Email **info@teton.ai** with subject **`Solution: Robust mobile notifications`**
    - The two or three hardest tradeoffs you made.
    - What you would do next if you had another week.
 3. Instructions to run your service against `mock_gateway/`.
+4. Your **CV** (attached), plus **LinkedIn** and **GitHub** links so we can put the work in context.
 
-We read every submission. If your work hits the bar, you skip the entire CV stage and go straight to talking with engineers.
+**We reply with feedback within 7 days — every submission, no exceptions.** If your work hits the bar, the next step is a conversation with engineers.
 
 ## Notes
 
