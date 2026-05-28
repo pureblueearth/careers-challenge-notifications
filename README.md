@@ -94,12 +94,40 @@ We will also **read your code**. A solution that passes the harness but is unrea
 
 ```
 .
-├── README.md         , this file
-├── SUBMISSION.md     , fill this in with your submission
-├── mock_gateway/     , the push gateway simulator (read its README)
-├── load_harness/     , a basic load generator you can run locally
-└── eval/             , the test scenarios we'll run against your service
+├── README.md          - this file
+├── SUBMISSION.md      - fill this in with your submission
+├── Makefile           - convenience targets (see `make help`)
+├── mock_gateway/      - the push gateway simulator (read its README)
+├── load_harness/      - submits N events to your /notify endpoint
+├── eval/              - scenario runner + scorecard
+└── example_solution/  - a deliberately-bad stub service so you can see
+                         the API contract end-to-end. Replace with yours.
 ```
+
+## Quickstart
+
+Python 3.10+. No pip dependencies.
+
+```bash
+# Terminal 1: start the gateway
+make gateway
+
+# Terminal 2: start the example stub service (replace with your own later)
+make example
+
+# Terminal 3: run the smoke scenario
+make smoke
+```
+
+The smoke run takes ~20 seconds and prints a scorecard. The example stub will score badly on delivery rate and duplicates — that's the point. Beat it.
+
+Bigger scenarios: `make baseline`, `make burst`, `make adversarial`. For adversarial, restart the gateway with the high-failure profile first:
+
+```bash
+FAIL_5XX_RATE=0.3 DROP_RATE=0.1 make gateway
+```
+
+Point eval at your own service with `make smoke SERVICE_URL=http://localhost:9090`.
 
 ## What we are explicitly **not** looking for
 
