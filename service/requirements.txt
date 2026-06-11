@@ -1,0 +1,6 @@
+# Runtime dependencies. Pinned to compatible ranges so clone-and-run is reproducible.
+fastapi>=0.115,<1.0        # async HTTP framework for the intake API
+uvicorn[standard]>=0.32,<1.0  # ASGI server that runs the FastAPI app
+asyncpg>=0.30,<1.0         # fast async Postgres driver with a built-in pool
+httpx>=0.27,<1.0           # async HTTP client for calling the mock gateway (used by the worker)
+python-dotenv>=1.0,<2.0    # loads .env into the environment on startup

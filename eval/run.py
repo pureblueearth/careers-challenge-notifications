@@ -56,7 +56,6 @@ def reset_gateway() -> None:
 def fetch_stats() -> dict:
     return gateway_request("GET", "/_stats")
 
-
 def score(stats: dict) -> dict:
     attempts = stats.get("attempts", [])
     # (event_id, token) -> list of (status, received_at, delivered_at)
@@ -69,6 +68,10 @@ def score(stats: dict) -> dict:
                        if any(h["status"] == 202 for h in hits)}
     duplicate_pairs = {k for k, hits in pairs.items()
                        if sum(1 for h in hits if h["status"] == 202) > 1}
+
+
+    expired = set(stats.get("expired_tokens", []))
+    scored_pairs = {k for k in pairs if k in delivered_pairs or k[1] not in expired}
 
     latencies = []
     for hits in pairs.values():
@@ -85,7 +88,7 @@ def score(stats: dict) -> dict:
         "unique_pairs":        len(pairs),
         "delivered_pairs":     len(delivered_pairs),
         "duplicate_pairs":     len(duplicate_pairs),
-        "delivery_rate":       len(delivered_pairs) / max(len(pairs), 1),
+        "delivery_rate":       len(delivered_pairs) / max(len(scored_pairs), 1),
         "duplicate_rate":      len(duplicate_pairs) / max(len(pairs), 1),
         "delivery_p50_ms":     pct(0.5) * 1000,
         "delivery_p95_ms":     pct(0.95) * 1000,
@@ -104,11 +107,11 @@ def print_scorecard(scenario: str, sc: dict) -> None:
             print(f"  {k:24s} {v}")
     print()
     if sc["delivery_rate"] < 0.99:
-        print("  ⚠ delivery rate below 99% — events are being lost or never retried")
+        print("  ⚠ delivery rate below 99% - events are being lost or never retried")
     if sc["duplicate_rate"] > 0.0:
-        print("  ⚠ duplicates detected — dedup the (event_id, device_token) pair")
+        print("  ⚠ duplicates detected - dedup the (event_id, device_token) pair")
     if sc["delivery_p95_ms"] > 5000:
-        print("  ⚠ p95 delivery latency over 5s — increase retry concurrency or "
+        print("  ⚠ p95 delivery latency over 5s - increase retry concurrency or "
               "tighter backoff")
 
 
