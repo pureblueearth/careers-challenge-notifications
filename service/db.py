@@ -267,7 +267,7 @@ async def claim_due(batch_size: int, lease_seconds: int) -> list[ClaimedDelivery
               -- Ordering gate: skip while the same user has a lower-seq row still
               -- pending (a leased, in-flight row stays pending, so it keeps blocking).
               -- A terminal predecessor (expired/failed) deliberately does NOT block,
-              -- so a dead or poison delivery can't wedge the recipient (liveness wins).
+              -- so a dead or 'poisoned' delivery can't wedge the recipient (liveness wins).
               AND NOT EXISTS (
                   SELECT 1 FROM deliveries AS earlier
                   WHERE earlier.user_id = deliveries.user_id

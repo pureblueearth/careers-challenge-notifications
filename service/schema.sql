@@ -57,12 +57,6 @@ CREATE INDEX IF NOT EXISTS idx_deliveries_due
 CREATE INDEX IF NOT EXISTS idx_deliveries_user_seq
     ON deliveries (user_id, seq) WHERE status = 'pending';
 
--- Claimable-set lookup ordered by priority then seq.
-CREATE INDEX IF NOT EXISTS deliveries_claimable_idx
-    ON deliveries (
-        priority,
-        seq,
-        user_id,
-        next_attempt_at
-    )
-    WHERE status = 'pending';
+-- Index the priority = 'high' DESC, seq sort query in claims_due.
+CREATE INDEX IF NOT EXISTS idx_deliveries_claim
+    ON deliveries (((priority = 'high')) DESC, seq);
